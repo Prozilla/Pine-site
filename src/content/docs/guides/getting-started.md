@@ -7,7 +7,7 @@ sidebar:
 
 ## Installation
 
-To get started with the Pine engine, please take a look at the [Installation guide](./installation.md).
+To get started with the Pine engine, please take a look at the [Installation guide](../installation).
 
 ## Community
 
