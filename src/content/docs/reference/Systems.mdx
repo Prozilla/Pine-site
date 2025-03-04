@@ -1,0 +1,18 @@
+---
+title: Systems
+sidebar:
+  order: 4
+---
+
+Systems look for certain combinations of components in entities and modify the data of said components in each frame. Systems determine the behaviour of entities.
+
+There are a total of 4 different types of systems:
+
+| Order | Type | Description |
+| :--- | :--- | :--- |
+| 1 | Initialisation systems | Initialize entities when they are first added to the world. |
+| 2 | Input systems | Read user input and modify data of components in each frame. |
+| 3 | Update systems | Modify the data of components in each frame. |
+| 4 | Render systems | Turn components into visuals that are rendered to the screen. |
+
+Initialisation systems are also executed when an inactive entity is re-activated. Input, update and render systems are executed in each frame in the order specified above.

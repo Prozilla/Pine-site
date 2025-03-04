@@ -7,7 +7,7 @@ export default defineConfig({
 	base: "/Pine-site/",
 	integrations: [
 		starlight({
-			title: "Pine",
+			title: "Pine Wiki",
 			social: {
 				discord: "https://discord.gg/JwbyQP4tdz",
 				github: "https://github.com/Prozilla/Pine",
@@ -28,6 +28,9 @@ export default defineConfig({
 					label: "Reference",
 					autogenerate: { directory: "reference" },
 				},
+			],
+			customCss: [
+				"./src/styles/custom.css",
 			],
 		}),
 	],

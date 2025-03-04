@@ -1,0 +1,52 @@
+---
+title: Entities
+sidebar:
+  order: 2
+---
+
+import { Steps } from "@astrojs/starlight/components";
+
+Entities are unique elements inside a world that can have components. Every entity has a `Transform` component, which contains data about its position, parent and children.
+
+## Prefabs
+
+Entities can be created by instantiated prefabs into the world. Prefabs serve as a blueprint for entities, they determine which components an entity is initialized with, which tag, etc.
+
+Here is an example:
+
+<Steps>
+
+1. Create a new sprite prefab.
+
+	```java
+	SpritePrefab spritePrefab = new SpritePrefab("sprite.png");
+	```
+
+2. Set properties of the prefab
+
+	```java
+	spritePrefab.setColor(new Color(1f, 1f, 1f, 0.5f));
+	spritePrefab.setScale(2f);
+	```
+
+3. Instantiate the prefab
+
+	```java
+	Entity sprite = spritePrefab.instantiate(world);
+	// Or
+	Entity sprite = spritePrefab.instantiate(world, 0, 0);
+	// Or
+	Entity sprite = world.addEntity(spritePrefab);
+	// Or
+	Entity sprite = world.addEntity(spritePrefab, 0, 0);
+	```
+
+4. You will now have an entity at (0, 0) with a sprite component attached with a semi-transparent color and 2x scale.
+
+</Steps>
+
+Alternatively, if you want to add the entity as a child of another entity, you can use the method `addChild(prefab)`, which will instantiate the prefab and add it as a child:
+
+```java
+Entity sprite = parentEntity.addChild(spritePrefab);
+```
