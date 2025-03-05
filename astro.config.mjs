@@ -3,8 +3,7 @@ import starlight from "@astrojs/starlight";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://prozilla.github.io",
-	base: "/Pine-site/",
+	site: "https://pine.prozilla.dev",
 	integrations: [
 		starlight({
 			title: "Pine Wiki",
