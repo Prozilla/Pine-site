@@ -5,9 +5,9 @@ sidebar:
   order: 1
 ---
 
-## Installation
-
 To get started with the Pine engine, please take a look at the [Installation guide](../installation).
+After that, you can explore our documentation on this site and also via [Javadoc](https://javadoc.pine.prozilla.dev/).
+You can also find a couple example projects in the [GitHub repository](https://github.com/Prozilla/Pine/tree/main/examples/src/main/java/dev/prozilla/pine/examples).
 
 ## Community
 

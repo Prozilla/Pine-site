@@ -11,9 +11,9 @@ export default defineConfig({
 				discord: "https://discord.gg/JwbyQP4tdz",
 				github: "https://github.com/Prozilla/Pine",
 			},
-			// logo: {
-			// 	src: "./public/favicon.svg",
-			// },
+			logo: {
+				src: "./public/favicon.svg",
+			},
 			sidebar: [
 				{
 					label: "Guides",
