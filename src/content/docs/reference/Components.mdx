@@ -4,4 +4,46 @@ sidebar:
   order: 3
 ---
 
-A component stores the data of an entity and can be modified by systems. 
+A component stores the data of an entity and can be modified by systems. Components classes usually only have public properties, because most properties need to be read and set by systems.
+
+## Creating components
+
+Components are created by extending the [`Component`](https://javadoc.pine.prozilla.dev/dev/prozilla/pine/core/component/Component.html) class.
+
+### Example
+
+```java
+public SpriteRenderer extends Component {
+
+	public Texture texture;
+
+}
+```
+
+## Adding components to entities
+
+Components can be attached to entities. This will trigger any initialisation system that requires a component of the component's class.
+
+```java
+SpriteRenderer spriteRenderer = entity.addComponent(new SpriteRenderer());
+```
+
+## Getting components of entities
+
+Components of entities can be retrieved by referencing the component's class. However, usage of this method in performance-critical contexts is discouraged, since it is quite slow. Instead, it is recommended to create a system that requires this component.
+
+```java
+SpriteRenderer spriteRenderer = entity.getComponent(SpriteRenderer.class);
+```
+
+## Toggling components
+
+Components can be activated and deactivated, which will make all systems temporarily ignore them.
+
+```java
+component.setActive(false);
+component.isActive; // false
+
+component.setActive(true);
+component.isActive; // true
+```

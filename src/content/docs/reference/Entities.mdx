@@ -8,7 +8,7 @@ import { Steps } from "@astrojs/starlight/components";
 
 Entities are unique elements inside a world that can have components. Every entity has a `Transform` component, which contains data about its position, parent and children.
 
-## Prefabs
+## Creating entities via prefabs
 
 Entities can be created by instantiated prefabs into the world. Prefabs serve as a blueprint for entities, they determine which components an entity is initialized with, which tag, etc.
 
@@ -49,4 +49,18 @@ Alternatively, if you want to add the entity as a child of another entity, you c
 
 ```java
 Entity sprite = parentEntity.addChild(spritePrefab);
+```
+
+Adding an entity to the world will also register its components to all systems and triggers any initialisation system that requires one of the classes of the entity's components.
+
+# Toggling entities
+
+Entities can be activated and deactivated, which will temporarily make all systems ignore their components. Once an inactive entity is activated, it will trigger any initialisation system that requires any classes of the entity's components for said entity.
+
+```java
+entity.setActive(false);
+entity.isActive(); // false
+
+entity.setActive(true);
+entity.isActive(); // true
 ```

@@ -15,4 +15,68 @@ There are a total of 4 different types of systems:
 | 3 | Update systems | Modify the data of components in each frame. |
 | 4 | Render systems | Turn components into visuals that are rendered to the screen. |
 
-Initialisation systems are also executed when an inactive entity is re-activated. Input, update and render systems are executed in each frame in the order specified above.
+Initialisation systems are also executed when an inactive entity is re-activated.
+Input, update and render systems are executed in each frame in the order specified above.
+
+## Creating systems
+
+Below is a list of 3 different ways of creating systems, orderered from most to least simple. 
+All examples are update systems, but other types of systems can be created in the same way.
+The examples are systems that require a `Transform` component.
+
+### Option 1: Extending system base class
+
+This option is best used for systems that need to perform certain logic once, before processing all entities.
+
+```java
+public TransformUpdater extends UpdateSystemBase {
+
+	public TransformUpdater() {
+		super(Transform.class);
+	}
+
+	@Override
+	public void update(float deltaTime) {
+		// ...
+		
+		forEach(chunk -> {
+			Transform transform = chunk.getComponent(Transform.class);
+
+			// ...
+		});
+	}
+
+}
+```
+
+### Option 2: Extending system class
+
+```java
+public TransformUpdater extends UpdateSystem {
+
+	public TransformUpdater() {
+		super(Transform.class);
+	}
+
+	@Override
+	public void process(EntityChunk chunk, float deltaTime) {
+		Transform transform = chunk.getComponent(Transform.class);
+
+		// ...
+	}
+
+}
+```
+
+### Option 3: Using system builder
+
+```java
+UpdateSystemBuilder updateSystemBuilder = new UpdateSystemBuilder(Transform.class);
+updateSystemBuilder.setCallback(chunk -> {
+	Transform transform = chunk.getComponent(Transform.class);
+
+	// ...
+});
+
+TransformUpdater transformUpdater = updateSystemBuilder.build();
+```
