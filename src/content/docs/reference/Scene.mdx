@@ -1,0 +1,36 @@
+---
+title: Scene
+sidebar:
+  order: 2
+---
+
+Scenes are responsible for loading systems and entities into the world.
+
+## Creating a Scene
+
+```java
+public class MyScene extends Scene {
+
+	public MyScene() {
+		super("MyScene");
+	}
+
+	@Override
+	protected void load() {
+		super.load();
+
+		// Add systems and entities...
+	}
+
+}
+```
+
+## Loading a Scene
+
+Each scene has a unique identifier (id). Scenes can be loaded by passing their id to `Application.loadScene(int sceneId)`.
+
+```java
+int mySceneId = myApplication.addScene(new MyScene());
+
+myApplication.loadScene(mySceneId);
+```

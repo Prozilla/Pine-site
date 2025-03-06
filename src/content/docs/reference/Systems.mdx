@@ -1,7 +1,7 @@
 ---
 title: Systems
 sidebar:
-  order: 4
+  order: 5
 ---
 
 Systems look for certain combinations of components in entities and modify the data of said components in each frame. Systems determine the behaviour of entities.
@@ -29,7 +29,7 @@ The examples are systems that require a `Transform` component.
 This option is best used for systems that need to perform certain logic once, before processing all entities.
 
 ```java
-public TransformUpdater extends UpdateSystemBase {
+public class TransformUpdater extends UpdateSystemBase {
 
 	public TransformUpdater() {
 		super(Transform.class);
@@ -38,7 +38,7 @@ public TransformUpdater extends UpdateSystemBase {
 	@Override
 	public void update(float deltaTime) {
 		// ...
-		
+
 		forEach(chunk -> {
 			Transform transform = chunk.getComponent(Transform.class);
 
@@ -52,7 +52,7 @@ public TransformUpdater extends UpdateSystemBase {
 ### Option 2: Extending system class
 
 ```java
-public TransformUpdater extends UpdateSystem {
+public class TransformUpdater extends UpdateSystem {
 
 	public TransformUpdater() {
 		super(Transform.class);
@@ -79,4 +79,12 @@ updateSystemBuilder.setCallback(chunk -> {
 });
 
 TransformUpdater transformUpdater = updateSystemBuilder.build();
+```
+
+## Adding systems to the world
+
+Systems should be added to the world during scene loading, before any entities are added to the scene.
+
+```java
+world.addSystem(transformUpdater);
 ```

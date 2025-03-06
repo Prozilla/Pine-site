@@ -1,7 +1,7 @@
 ---
 title: Components
 sidebar:
-  order: 3
+  order: 4
 ---
 
 A component stores the data of an entity and can be modified by systems. Components classes usually only have public properties, because most properties need to be read and set by systems.
@@ -13,7 +13,7 @@ Components are created by extending the [`Component`](https://javadoc.pine.prozi
 ### Example
 
 ```java
-public SpriteRenderer extends Component {
+public class SpriteRenderer extends Component {
 
 	public Texture texture;
 
