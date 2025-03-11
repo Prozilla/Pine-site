@@ -6,13 +6,15 @@ export default defineConfig({
 	site: "https://pine.prozilla.dev",
 	integrations: [
 		starlight({
-			title: "Pine Wiki",
+			title: "Pine Engine",
 			social: {
 				discord: "https://discord.gg/JwbyQP4tdz",
 				github: "https://github.com/Prozilla/Pine",
 			},
 			logo: {
-				src: "./public/favicon.svg",
+				dark: "./public/logo-dark.svg",
+				light: "./public/logo-light.svg",
+				replacesTitle: true,
 			},
 			sidebar: [
 				{
@@ -33,6 +35,8 @@ export default defineConfig({
 			},
 			customCss: [
 				"./src/styles/custom.css",
+				"@fontsource-variable/rubik",
+				"@fontsource-variable/jetbrains-mono",
 			],
 			expressiveCode: {
 				themes: ["one-dark-pro", "one-light"]

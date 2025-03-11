@@ -27,25 +27,25 @@ The Pine engine is distributed using [GitHub Packages](https://github.com/Prozil
 
 1. In your `build.gradle` file, add the following lines:
 
-	```groovy
-	repositories {
-		mavenCentral()
-		maven {
-			url "https://repo.gradle.org/gradle/libs-releases"
-		}
-		maven {
-			url = uri("https://maven.pkg.github.com/prozilla/pine")
-			credentials {
-				username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-				password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
+	<Code code={`
+		repositories {
+			mavenCentral()
+			maven {
+				url "https://repo.gradle.org/gradle/libs-releases"
+			}
+			maven {
+				url = uri("https://maven.pkg.github.com/prozilla/pine")
+				credentials {
+					username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+					password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
+				}
 			}
 		}
-	}
 
-	dependencies {
-		implementation "dev.prozilla:pine:1.0.0"
-	}
-	```
+		dependencies {
+			implementation "dev.prozilla:pine:1.0.0"
+		}
+	`} title="build.gradle" lang="groovy" />
 
 2. Create a file with your environment variables. Replace `YOUR_USERNAME` and `YOUR_TOKEN` with your GitHub username and token respectively.
 
