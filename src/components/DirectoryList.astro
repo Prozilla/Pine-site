@@ -1,0 +1,26 @@
+---
+import { getCollection } from "astro:content";
+import { CardGrid, LinkCard } from "@astrojs/starlight/components";
+
+interface Props {
+  directory: string;
+}
+const { directory } = Astro.props;
+
+const pages = await getCollection("docs", (entry) => entry.id.startsWith(directory + "/")).catch((error) => {
+	console.error(error);
+	return null;
+});
+---
+
+{
+	pages && <CardGrid>
+		{pages.map(({ data, id }) => (
+			<LinkCard
+				title={data.title}
+				href={'/' + id}
+				description={data.description}
+			/>
+		))}
+	</CardGrid>
+}

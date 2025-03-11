@@ -6,7 +6,7 @@
 	--sl-color-white: hsl(216, 28%, 93%);
 	--sl-color-gray-1: hsl(214, 29%, 81%);
 	--sl-color-gray-2: hsl(214, 29%, 75%);
-	--sl-color-gray-3: hsl(210, 5%, 34%);
+	--sl-color-gray-3: hsl(210, 17%, 46%);
 	--sl-color-gray-4: hsl(210, 7%, 28%);
 	--sl-color-gray-5: hsl(210, 9%, 22%);
 	--sl-color-gray-6: hsl(213, 11%, 16%);
@@ -27,4 +27,16 @@
 	--sl-color-gray-6: #eceef2;
 	--sl-color-gray-7: #f5f6f8;
 	--sl-color-black: #ffffff;
+}
+
+.c-breadcrumbs__separator {
+	margin-bottom: -0.125rem;
+}
+
+.c-breadcrumbs__link.is-index > svg {
+	margin-top: 0.125rem;
+}
+
+.expressive-code .frame {
+	--code-background: var(--sl-color-gray-6) !important;
 }

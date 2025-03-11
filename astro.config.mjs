@@ -28,9 +28,15 @@ export default defineConfig({
 					autogenerate: { directory: "reference" },
 				},
 			],
+			components: {
+				PageTitle: "./src/components/PageTitle.astro",
+			},
 			customCss: [
 				"./src/styles/custom.css",
 			],
+			expressiveCode: {
+				themes: ["one-dark-pro", "one-light"]
+			}
 		}),
 	],
 	server: {
