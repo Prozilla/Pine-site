@@ -1,0 +1,44 @@
+<div class="developer">
+	<small>Developed by</small>
+	<a href="https://prozilla.dev/" target="_blank">
+		<img class="logo" src="https://prozilla.dev/media/Prozilla.svg"/>
+		<h2 class="name">Prozilla</h2>
+	</a>
+</div>
+
+<style>
+	.developer {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		align-items: center;
+		max-width: 40rem;
+		padding: 5rem 5rem 0;
+		margin: 1rem auto 0;
+	}
+
+	.developer small {
+		color: var(--sl-color-gray-3);
+		margin: 0;
+	}
+
+	.developer a {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-decoration: none;
+	}
+
+	.developer a .logo {
+		width: 10rem;
+	}
+
+	.developer a:hover .name {
+		color: var(--sl-color-text-accent);
+		text-decoration: underline;
+	}
+
+	.developer .name {
+		margin: 0;
+	}
+</style>

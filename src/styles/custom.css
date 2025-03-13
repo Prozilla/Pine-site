@@ -12,6 +12,11 @@
 	--sl-color-gray-6: hsl(213, 11%, 16%);
 	--sl-color-gray-7: hsl(214, 13%, 11%);
 	--sl-color-black: hsl(214, 13%, 11%);
+
+	--pine-brand-1: rgb(46, 204, 113);
+	--pine-brand-2: rgb(39, 174, 117);
+	--pine-brand-3: rgb(52, 152, 219);
+	--pine-gradient: linear-gradient(180deg, var(--pine-brand-1) 11%, var(--pine-brand-2) 54%, var(--pine-brand-3) 96%);
 }
 
 /* Light mode colors */
@@ -76,4 +81,21 @@
 
 [data-theme="light"] .expressive-code .frame {
 	--code-background: var(--sl-color-gray-7) !important;
+}
+
+[data-has-hero] body {
+	background-color: color-mix(in oklab, var(--sl-color-bg), var(--pine-brand-2) 10%);
+}
+
+[data-has-hero] .page {
+	--color-1: rgba(46, 204, 113, 0.1);
+	--color-2: rgba(39, 174, 117, 0.1);
+	--color-3: rgba(52, 152, 219, 0.2);
+
+	background: linear-gradient(215deg,var(--color-1),transparent 40%),radial-gradient(var(--color-2),transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,radial-gradient(var(--color-3),transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
+}
+
+.donate-button {
+	float: right;
+	margin: 1rem;
 }
