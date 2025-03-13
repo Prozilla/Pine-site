@@ -40,6 +40,9 @@ export default defineConfig({
 			],
 			expressiveCode: {
 				themes: ["one-dark-pro", "one-light"]
+			},
+			editLink: {
+				baseUrl: "https://github.com/Prozilla/Pine-site/edit/main/"
 			}
 		}),
 	],

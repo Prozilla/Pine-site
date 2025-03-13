@@ -4,13 +4,15 @@ sidebar:
   order: 5
 ---
 
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
 Systems look for certain combinations of components in entities and modify the data of said components in each frame. Systems determine the behaviour of entities.
 
 There are a total of 4 different types of systems:
 
 | Order | Type | Description |
 | :--- | :--- | :--- |
-| 1 | Initialisation systems | Initialize entities when they are first added to the world. |
+| 1 | Initialisation systems | Initialize entities when they are first added to the world and when they are re-activated. |
 | 2 | Input systems | Read user input and modify data of components in each frame. |
 | 3 | Update systems | Modify the data of components in each frame. |
 | 4 | Render systems | Turn components into visuals that are rendered to the screen. |
@@ -26,60 +28,229 @@ The examples are systems that require a `Transform` component.
 
 ### Option 1: Extending system base class
 
-This option is best used for systems that need to perform certain logic once, before processing all entities.
+This option is best used for systems that need to perform certain logic once per frame, before or after processing all entities.
 
-```java
-public class TransformUpdater extends UpdateSystemBase {
+<Tabs syncKey="systems">
+	<TabItem label="Init">
+		```java
+		public class TransformInitializer extends InitSystemBase {
 
-	public TransformUpdater() {
-		super(Transform.class);
-	}
+			public TransformInitializer() {
+				super(Transform.class);
+			}
 
-	@Override
-	public void update(float deltaTime) {
-		// ...
+			@Override
+			public void init() {
+				// ...
 
-		forEach(chunk -> {
+				forEach(chunk -> {
+					Transform transform = chunk.getComponent(Transform.class);
+
+					// ...
+				});
+			}
+
+		}
+		```
+	</TabItem>
+	<TabItem label="Input">
+		```java
+		public class TransformInputHandler extends InputSystemBase {
+
+			public TransformInputHandler() {
+				super(Transform.class);
+			}
+
+			@Override
+			public void input(float deltaTime) {
+				// ...
+
+				forEach(chunk -> {
+					Transform transform = chunk.getComponent(Transform.class);
+
+					// ...
+				});
+			}
+
+		}
+		```
+	</TabItem>
+	<TabItem label="Update">
+		```java
+		public class TransformUpdater extends UpdateSystemBase {
+
+			public TransformUpdater() {
+				super(Transform.class);
+			}
+
+			@Override
+			public void update(float deltaTime) {
+				// ...
+
+				forEach(chunk -> {
+					Transform transform = chunk.getComponent(Transform.class);
+
+					// ...
+				});
+			}
+
+		}
+		```
+	</TabItem>
+	<TabItem label="Render">
+		```java
+		public class TransformRenderSystem extends RenderSystemBase {
+
+			public TransformRenderSystem() {
+				super(Transform.class);
+			}
+
+			@Override
+			public void render(Renderer renderer) {
+				// ...
+
+				forEach(chunk -> {
+					Transform transform = chunk.getComponent(Transform.class);
+
+					// ...
+				});
+			}
+
+		}
+		```
+	</TabItem>
+</Tabs>
+
+
+### Option 2: Extending system class
+
+<Tabs syncKey="systems">
+	<TabItem label="Init">
+		```java
+		public class TransformInitializer extends UpdateSystem {
+
+			public TransformInitializer() {
+				super(Transform.class);
+			}
+
+			@Override
+			public void process(EntityChunk chunk) {
+				Transform transform = chunk.getComponent(Transform.class);
+
+				// ...
+			}
+
+		}
+		```
+	</TabItem>
+	<TabItem label="Input">
+		```java
+		public class TransformInputHandler extends UpdateSystem {
+
+			public TransformInputHandler() {
+				super(Transform.class);
+			}
+
+			@Override
+			public void process(EntityChunk chunk, Input input, float deltaTime) {
+				Transform transform = chunk.getComponent(Transform.class);
+
+				// ...
+			}
+
+		}
+		```
+	</TabItem>
+	<TabItem label="Update">
+		```java
+		public class TransformUpdater extends UpdateSystem {
+
+			public TransformUpdater() {
+				super(Transform.class);
+			}
+
+			@Override
+			public void process(EntityChunk chunk, float deltaTime) {
+				Transform transform = chunk.getComponent(Transform.class);
+
+				// ...
+			}
+
+		}
+		```
+	</TabItem>
+	<TabItem label="Render">
+		```java
+		public class TransformRenderSystem extends UpdateSystem {
+
+			public TransformRenderSystem() {
+				super(Transform.class);
+			}
+
+			@Override
+			public void process(EntityChunk chunk, Renderer renderer) {
+				Transform transform = chunk.getComponent(Transform.class);
+
+				// ...
+			}
+
+		}
+		```
+	</TabItem>
+</Tabs>
+
+### Option 3: Using system builder
+
+<Tabs syncKey="systems">
+	<TabItem label="Init">
+		```java
+		InitSystemBuilder initSystemBuilder = new InitSystemBuilder(Transform.class);
+		initSystemBuilder.setCallback(chunk -> {
 			Transform transform = chunk.getComponent(Transform.class);
 
 			// ...
 		});
-	}
 
-}
-```
+		InitSystem transformInitializer = initSystemBuilder.build();
+		```
+	</TabItem>
+	<TabItem label="Input">
+		```java
+		InputSystemBuilder inputSystemBuilder = new InputSystemBuilder(Transform.class);
+		inputSystemBuilder.setCallback(chunk, input, deltaTime -> {
+			Transform transform = chunk.getComponent(Transform.class);
 
-### Option 2: Extending system class
+			// ...
+		});
 
-```java
-public class TransformUpdater extends UpdateSystem {
+		InputSystem transformInputHandler = inputSystemBuilder.build();
+		```
+	</TabItem>
+	<TabItem label="Update">
+		```java
+		UpdateSystemBuilder updateSystemBuilder = new UpdateSystemBuilder(Transform.class);
+		updateSystemBuilder.setCallback(chunk, deltaTime -> {
+			Transform transform = chunk.getComponent(Transform.class);
 
-	public TransformUpdater() {
-		super(Transform.class);
-	}
+			// ...
+		});
 
-	@Override
-	public void process(EntityChunk chunk, float deltaTime) {
-		Transform transform = chunk.getComponent(Transform.class);
+		UpdateSystem transformUpdater = updateSystemBuilder.build();
+		```
+	</TabItem>
+	<TabItem label="Render">
+		```java
+		RenderSystemBuilder renderSystemBuilder = new RenderSystemBuilder(Transform.class);
+		renderSystemBuilder.setCallback(chunk, renderer -> {
+			Transform transform = chunk.getComponent(Transform.class);
 
-		// ...
-	}
+			// ...
+		});
 
-}
-```
-
-### Option 3: Using system builder
-
-```java
-UpdateSystemBuilder updateSystemBuilder = new UpdateSystemBuilder(Transform.class);
-updateSystemBuilder.setCallback(chunk -> {
-	Transform transform = chunk.getComponent(Transform.class);
-
-	// ...
-});
-
-TransformUpdater transformUpdater = updateSystemBuilder.build();
-```
+		RenderSystem transformRenderSystem = renderSystemBuilder.build();
+		```
+	</TabItem>
+</Tabs>
 
 ## Adding systems to the world
 

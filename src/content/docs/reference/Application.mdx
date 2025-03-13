@@ -4,6 +4,8 @@ sidebar:
   order: 1
 ---
 
+import JavadocLink from "~/components/JavadocLink.astro";
+
 ## Lifecycle
 
 1. Initialization
@@ -16,7 +18,7 @@ sidebar:
 
 There are 3 different ways to create an application.
 
-### Option 1: Extending application class
+### Option 1: Extending <JavadocLink name="dev.prozilla.pine.core.Application"/> class
 
 ```java
 public class MyApplication extends Application {
@@ -28,13 +30,16 @@ public class MyApplication extends Application {
 }
 ```
 
-### Option 2: Instancing application class
+### Option 2: Instancing <JavadocLink name="dev.prozilla.pine.core.Application"/> class
 
 ```java
 Application myApplication = new Application("Hello world", 900, 600);
 ```
 
-### Option 3: Using application builder
+### Option 3: Using <JavadocLink name="dev.prozilla.pine.core.ApplicationBuilder"/>
+
+The application builder is an implementation of the [builder pattern](https://en.wikipedia.org/wiki/Builder_pattern).
+It allows you to construct an application step by step.
 
 ```java
 ApplicationBuilder applicationBuilder = new ApplicationBuilder();
@@ -45,11 +50,15 @@ Application myApplication = applicationBuilder.build();
 
 ## Running an application
 
+The `run()` method initializes the application and then starts it. This method will also catch any exceptions and log them.
+
 ```java
 myApplication.run();
 ```
 
 ## Pausing and resuming an application
+
+Pausing an application changes its state to `PAUSED` and sets the time scale to `0f`.
 
 ```java
 myApplication.pause();
@@ -60,6 +69,8 @@ myApplication.togglePause();
 ```
 
 ## Stopping an application
+
+Calling the `stop()` method will safely terminate the application after the current frame has finished.
 
 ```java
 myApplication.stop();

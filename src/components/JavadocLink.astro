@@ -1,0 +1,12 @@
+---
+interface Props {
+	label?: string;
+	name: string;
+}
+const { label, name } = Astro.props;
+const path = name.split(".");
+const url = `https://javadoc.pine.prozilla.dev/${path.join("/")}`;
+const text = label ?? path[path.length - 1];
+---
+
+<code><a href={url}>{text}</a></code>
