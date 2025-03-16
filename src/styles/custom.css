@@ -11,7 +11,9 @@
 	--sl-color-gray-5: hsl(210, 9%, 22%);
 	--sl-color-gray-6: hsl(213, 11%, 16%);
 	--sl-color-gray-7: hsl(214, 13%, 11%);
-	--sl-color-black: hsl(214, 13%, 11%);
+
+	--color-black-hsl: 214, 13%, 11%;
+	--sl-color-black: hsl(var(--color-black-hsl));
 
 	--pine-brand-1: rgb(46, 204, 113);
 	--pine-brand-2: rgb(39, 174, 117);
@@ -32,7 +34,7 @@
 	--sl-color-gray-5: hsl(214, 20%, 75%);
 	--sl-color-gray-6: hsl(214, 29%, 81%);
 	--sl-color-gray-7: hsl(216, 28%, 93%);
-	--sl-color-black: hsl(216, 28%, 97%);
+	--color-black-hsl: 216, 28%, 97%;
 }
 
 /* Font */
@@ -84,7 +86,7 @@
 }
 
 [data-has-hero] body {
-	background-color: color-mix(in oklab, var(--sl-color-bg), var(--pine-brand-2) 10%);
+	background-color: color-mix(in oklab, var(--sl-color-bg), var(--pine-brand-1) 5%);
 }
 
 [data-has-hero] .page {
@@ -95,7 +97,10 @@
 	background: linear-gradient(215deg,var(--color-1),transparent 40%),radial-gradient(var(--color-2),transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,radial-gradient(var(--color-3),transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
 }
 
-.donate-button {
-	float: right;
-	margin: 1rem;
+[data-has-hero] .page .card {
+	background-color: hsla(var(--color-black-hsl), 50%);
+}
+
+.about-wrapper .card-grid {
+	margin-block: 5rem 0;
 }
