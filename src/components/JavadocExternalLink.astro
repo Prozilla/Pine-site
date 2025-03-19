@@ -4,7 +4,13 @@ interface Props {
 	name: string;
 }
 const { name } = Astro.props;
+
 const path = name.split(".");
+
+if (path.length > 0 && path[path.length - 1] == "*") {
+	path[path.length - 1] = "package-summary";
+}
+
 const url = `https://javadoc.pine.prozilla.dev/${path.join("/")}`;
 ---
 

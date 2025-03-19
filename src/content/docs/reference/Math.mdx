@@ -1,0 +1,44 @@
+---
+title: Math utilities
+sidebar:
+  order: 8
+javadoc: dev.prozilla.pine.common.math.*
+---
+
+import JavadocLink from "~/components/JavadocLink.astro";
+
+## Vector
+
+Pine uses the following classes to represent 2-, 3- and 4-dimensional vectors with integer or floating point precision.
+
+- <JavadocLink name="dev.prozilla.pine.common.math.vector.Vector2f"/>
+- <JavadocLink name="dev.prozilla.pine.common.math.vector.Vector3f"/>
+- <JavadocLink name="dev.prozilla.pine.common.math.vector.Vector4f"/>
+- <JavadocLink name="dev.prozilla.pine.common.math.vector.Vector2i"/>
+- <JavadocLink name="dev.prozilla.pine.common.math.vector.Vector3i"/>
+- <JavadocLink name="dev.prozilla.pine.common.math.vector.Vector4i"/>
+
+Vectors with integer precision are often referred to as coordinates and vectors with floating point precision as positions.
+
+### Direction
+
+The <JavadocLink name="dev.prozilla.pine.common.math.vector.Direction"/> enum contains 2-dimensional directions (up, down, left and right).
+The enum provides utilities for mirroring and rotating directions and for converting directions to vectors or to degrees.
+The `x` and `y` properties respectively represent the sine and cosine of the angle of the direction.
+
+### Edge alignment
+
+The <JavadocLink name="dev.prozilla.pine.common.math.vector.EdgeAlignment"/> enum contains 1-dimensional points that can be used to represent an anchor point on a line.
+In user interfaces, this is used to align children to a given side of the cross axis of a <JavadocLink name="dev.prozilla.pine.core.component.canvas.CanvasGroup"/>.
+
+```java
+float lineLength = 10f;
+
+float lineStart = EdgeAlignment.START.getValue(lineLength); // 0f
+float lineMiddle = EdgeAlignment.CENTER.getValue(lineLength); // 5f
+float lineEnd = EdgeAlignment.END.getValue(lineLength); // 10f
+```
+
+### Grid alignment
+
+The <JavadocLink name="dev.prozilla.pine.common.math.vector.GridAlignment"/> enum contains 2-dimensional anchor points relative to the bottom left corner of a rectangle.
