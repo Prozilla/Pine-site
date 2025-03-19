@@ -1,0 +1,38 @@
+---
+title: Resource loading
+sidebar:
+  order: 7
+javadoc: dev.prozilla.pine.common.system.resource.ResourcePool
+---
+
+import JavadocLink from "~/components/JavadocLink.astro";
+import { Aside } from "@astrojs/starlight/components";
+
+Pine uses a resource pool to manage resources efficiently, by avoiding loading resources multiple times.
+The resource pool takes a string that represents the path to a file, then loads that file as a resource, adds it to the pool and returns it.
+Then, if you use the resource pool to load that same file again, it will return the pooled resource instead of loading it again.
+
+Classes that use resources, like the <JavadocLink name="dev.prozilla.pine.core.component.sprite.SpriteRenderer"/> component or <JavadocLink name="dev.prozilla.pine.core.component.canvas.ImageRenderer"/> component, will often provide an alternative method or constructor that has a path (string) instead of a resource as an argument. These use the resource pool to load the resource efficiently based on the given path.
+
+```java
+Image image = ResourcePool.loadImage("images/image.png");
+
+Texture texture = ResourcePool.loadTexture("images/image.png");
+
+Font font = ResourcePool.loadFont("fonts/font.ttf"); // Loads a font with the default font size (16)
+Font font = ResourcePool.loadFont("fonts/font.ttf", 16);
+```
+
+<Aside>
+
+Instances of the <JavadocLink name="dev.prozilla.pine.common.system.resource.Texture"/> class are created using instances of the <JavadocLink name="dev.prozilla.pine.common.system.resource.Image"/> class.
+Therefore, loading a texture from a given path that has not been pooled yet, will first load the image from that path (unless it has already been pooled) and add it to the pool, then use that to create a new texture.
+
+</Aside>
+
+The following method can be used to discard all pooled resources.
+This might be useful when switching between two scenes that do not share many resources, to free up more memory.
+
+```java
+ResourcePool.clear();
+```
