@@ -1,0 +1,20 @@
+---
+import { LinkButton } from "@astrojs/starlight/components";
+interface Props {
+	name: string;
+}
+const { name } = Astro.props;
+const path = name.split(".");
+const url = `https://javadoc.pine.prozilla.dev/${path.join("/")}`;
+---
+
+<LinkButton class="javadoc-link" href={url} variant="secondary" icon="external" target="_blank">
+	Open Javadoc
+</LinkButton>
+
+<style>
+	.javadoc-link {
+		font-size: var(--sl-text-sm);
+		padding: 0.625rem 0.825rem;
+	}
+</style>

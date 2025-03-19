@@ -2,7 +2,8 @@
 import { Breadcrumbs } from "astro-breadcrumbs";
 import "astro-breadcrumbs/breadcrumbs.css";
 import { Icon } from "@astrojs/starlight/components";
-const { title } = Astro.locals.starlightRoute.entry.data;
+import JavadocExternalLink from "./JavadocExternalLink.astro";
+const { title, javadoc } = Astro.locals.starlightRoute.entry.data;
 ---
 
 <Breadcrumbs truncated={true} linkTextFormat={"sentence"}>
@@ -24,9 +25,20 @@ const { title } = Astro.locals.starlightRoute.entry.data;
 	<Icon slot="separator" name="right-caret" color="currentColor"/>
 </Breadcrumbs>
 
-<h1 id="_top">{title}</h1>
+<div class="title-wrapper">
+	<h1 id="_top">{title}</h1>
+	{javadoc && <JavadocExternalLink name={javadoc}/>}
+</div>
 
 <style>
+	.title-wrapper {
+		display: flex;
+		gap: 1rem;
+		align-items: flex-end;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+
 	h1 {
 		margin-top: 1rem;
 		font-size: var(--sl-text-h1);

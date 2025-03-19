@@ -1,0 +1,141 @@
+---
+title: Input
+description: In Pine, input handling is done by input systems.
+sidebar:
+  order: 6
+javadoc: dev.prozilla.pine.core.state.input.Input
+---
+
+import JavadocLink from "~/components/JavadocLink.astro";
+
+In Pine, input handling is done by [input systems](../systems).
+
+## Keyboard
+
+Keyboard keys are represented as values of the <JavadocLink name="dev.prozilla.pine.core.state.input.Key"/>, which maps keys to [GLFW keyboard key tokens](https://www.glfw.org/docs/3.3/group__keys.html).
+
+```java
+// Returns true in every frame while the space key is being pressed
+boolean spacePressed = input.getKey(Key.SPACE);
+
+// Returns true in the first frame the space key is down
+boolean spaceDown = input.getKeyDown(Key.SPACE);
+
+// Returns true in every frame while both the left control and space keys are being pressed
+boolean controlSpacePressed = input.getKeys(Key.L_CONTROL, Key.SPACE)
+
+// Returns true in every frame while either the left or right control keys are being pressed
+boolean controlPressed = input.getAnyKey(Key.L_CONTROL, Key.R_CONTROL)
+```
+
+### Stopping propagation
+
+To prevent later systems from reading the same keyboard input, use the following methods:
+
+```java
+boolean spacePressed = input.getKey(Key.SPACE, true);
+boolean spaceDown = input.getKeyDown(Key.SPACE, true);
+```
+
+### Using GLFW keyboard key tokens
+
+Instead of using the <JavadocLink name="dev.prozilla.pine.core.state.input.Key"/> enum, you can also use GLFW keyboard key tokens directly.
+
+```java
+import static org.lwjgl.glfw.GLFW.*;
+
+boolean spacePressed = input.getKey(GLFW_KEY_SPACE);
+```
+
+## Mouse
+
+### Cursor position
+
+The position of the cursor can be retrieved using the following methods. These methods will return `null` if the cursor was already blocked by an entity.
+
+```java
+// Returns the screen coordinates of the cursor
+Vector2i cursorPosition = input.getCursor();
+
+// Returns the position of the cursor transformed to a global world position, relative to the camera
+Vector2f cursorWorldPosition = input.getWorldCursor();
+```
+
+#### Blocking
+
+The cursor can be blocked by an entity to prevent later systems from reading the cursor position. This is only possible if the entity is currently active.
+
+```java
+// Block the cursor using an entity, if it hasn't been blocked yet
+input.blockCursor(entity);
+
+// Block the cursor using an entity, regardless of whether it has already been blocked yet
+input.blockCursor(entity, true);
+
+// Returns true if the cursor has been blocked by an entity
+boolean isCursorBlocked = input.isCursorBlocked();
+
+// Returns the entity that is blocking the cursor, or null if there isn't one
+Entity cursorBlocker = input.getCursorBlocker();
+```
+
+### Buttons
+
+Mouse buttons are represented as values of the <JavadocLink name="dev.prozilla.pine.core.state.input.MouseButton"/>, which maps buttons to [GLFW mouse buttons](https://www.glfw.org/docs/3.3/group__buttons.html).
+
+```java
+// Returns true in every frame while the left mouse button is being pressed
+boolean leftMouseButtonPressed = input.getMouseButton(MouseButton.LEFT);
+
+// Returns true in the first frame the left mouse button is down
+boolean leftMouseButtonDown = input.getMouseButton(MouseButton.LEFT);
+```
+
+#### Stopping propagation
+
+To prevent later systems from reading the same mouse button input, use the following methods:
+
+```java
+boolean leftMouseButtonPressed = input.getMouseButton(MouseButton.LEFT, true);
+boolean leftMouseButtonDown = input.getMouseButton(MouseButton.LEFT, true);
+```
+
+#### Using GLFW mouse buttons
+
+Instead of using the <JavadocLink name="dev.prozilla.pine.core.state.input.MouseButton"/> enum, you can also use GLFW mouse buttons directly.
+
+```java
+import static org.lwjgl.glfw.GLFW.*;
+
+boolean leftMouseButtonPressed = input.getMouseButton(GLFW_MOUSE_BUTTON_1);
+```
+
+### Scroll
+
+Horizontal and vertical scroll values can be read using the following methods.
+
+```java
+float scrollX = input.getScrollX();
+float scrollY = input.getScrollY();
+```
+
+### Cursor type and image
+
+The appearance of the cursor can be changed using the following methods.
+Cursors can either have a standard appearance (cursor type) or a custom appearace (cursor image).
+
+```java
+// Show the default hand (or pointer) cursor
+input.setCursorType(CursorType.HAND);
+// Or
+import static org.lwjgl.glfw.GLFW.*;
+input.setCursorType(GLFW_ARROW_CURSOR);
+
+// Show a custom cursor image
+Image cursorImage = ResourcePool.loadImage("textures/cursor.png");
+input.setCursorImage(cursorImage);
+
+// Show a custom cursor image with an offset of 16x16 pixels
+input.setCursorImage(cursorImage, 16, 16);
+input.setCursorImage(cursorImage, new Vector2i(16, 16));
+```
