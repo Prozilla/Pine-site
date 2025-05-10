@@ -34,10 +34,21 @@ SpriteRenderer spriteRenderer = entity.addComponent(new SpriteRenderer());
 
 ## Getting components of entities
 
-Components of entities can be retrieved by referencing the component's class. However, usage of this method in performance-critical contexts is discouraged, since it is quite slow. Instead, it is recommended to create a system that requires this component.
+Components of entities can be retrieved by referencing the component's class.
+However, usage of this method in performance-critical contexts is discouraged, since it is quite slow. Instead, it is recommended to create a system that requires this component.
 
 ```java
 SpriteRenderer spriteRenderer = entity.getComponent(SpriteRenderer.class);
+
+SpriteRenderer spriteRenderer = childEntity.getComponentInParent(SpriteRenderer.class);
+
+List<SpriteRenderer> spriteRenderers = parentEntity.getComponentsInChildren(SpriteRenderer.class);
+```
+
+## Querying components of entities
+
+```java
+boolean hasSpriteRenderer = entity.hasComponent(SpriteRenderer.class);
 ```
 
 ## Toggling components

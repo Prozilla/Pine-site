@@ -7,8 +7,9 @@ javadoc: dev.prozilla.pine.core.entity.Entity
 ---
 
 import { Steps } from "@astrojs/starlight/components";
+import JavadocLink from "~/components/JavadocLink.astro";
 
-Entities are unique elements inside a world that can have components. Every entity has a `Transform` component, which contains data about its position, parent and children.
+Entities are unique elements inside a world that can have components. Every entity has a <JavadocLink name="dev.prozilla.pine.core.component.Transform"/> component, which contains data about its position, parent and children.
 
 ## Creating entities via prefabs
 
@@ -53,11 +54,30 @@ Alternatively, if you want to add the entity as a child of another entity, you c
 Entity sprite = parentEntity.addChild(spritePrefab);
 ```
 
+This is the equivalent of doing:
+
+```java
+Entity sprite = spritePrefab.instantiate(world);
+parentEntity.addChild(sprite);
+```
+
 Adding an entity to the world will also register its components to all systems and triggers any initialisation system that requires one of the classes of the entity's components.
 
-# Toggling entities
+## Destroying entities
 
-Entities can be activated and deactivated, which will temporarily make all systems ignore their components. Once an inactive entity is activated, it will trigger any initialisation system that requires any classes of the entity's components for said entity.
+You can destroy entities to remove them from the world by calling `destroy()` on the entity. Calling `destroyChildren()` on a parent entity will destroy all its children.
+
+```java
+entity.destroy();
+
+parentEntity.destroyChildren();
+```
+
+## Toggling entities
+
+Entities can be activated and deactivated, which will temporarily make all systems ignore their components.
+Once an inactive entity is activated, it will trigger any initialisation system that requires any classes of the entity's components for said entity.
+Any child, active or not, of an inactive entity, will behave as if it is inactive.
 
 ```java
 entity.setActive(false);
@@ -65,4 +85,68 @@ entity.isActive(); // false
 
 entity.setActive(true);
 entity.isActive(); // true
+
+parentEntity.setActive(false);
+parentEntity.addChild(entity);
+entity.setActive(true);
+entity.isActive(); // false
+```
+
+## Hierarchy
+
+The hierarchy of entities in a world is determined by the <JavadocLink name="dev.prozilla.pine.core.component.Transform"/> components of entities.
+Entities can have up to one parent and zero or more children.
+Each entity also has a depth index based on its position in the hierarchy and depth order of its parents.
+
+### Adding children
+
+```java
+parentEntity.addChild(prefab);
+// Or
+Entity entity = prefab.instantiate(world);
+parentEntity.addChild(entity);
+
+// Adding multiple children at once
+parentEntity.addChildren(entity, anotherEntity);
+```
+
+Instead of adding an entity to a parent as a child, you can also set the parent of an entity to attach it to that parent.
+
+```java
+entity.setParent(parentEntity);
+```
+
+### Removing children
+
+Removing children will detach them from their parent without removing them from the world.
+
+```java
+parentEntity.removeChild(entity);
+
+// Removing multiple children at once
+parentEntity.removeChildren(entity, anotherEntity);
+
+parentEntity.removeAllChildren();
+```
+
+### Querying children
+
+```java
+Entity firstChild = parentEntity.getFirstChild();
+Entity lastChild = parentEntity.getLastChild();
+
+// Returns the first child with a certain tag
+Entity taggedChild = parentEntity.getChildWithTag("tag");
+
+// Returns the parent if it has the given tag, otherwise returns null
+Entity taggedParent = parentEntity.getParentWithTag("tag");
+```
+
+### Checking hierarchy
+
+The method `isDescendantOf(parent)` can be used to check whether an entity is an (in)direct descendant of another entity.
+
+```java
+boolean isDescendantOf = entity.isDescendantOf(parentEntity);
+boolean isParentOf = childEntity.isDescendantOf(entity);
 ```
