@@ -137,7 +137,7 @@
 }
 
 [data-has-hero] .hero::after {
-	background-image: url("hero-background.png");
+	background-image: url("./public/hero-background.png");
 	background-size: cover;
 	background-position: center;
 	opacity: 0.2;

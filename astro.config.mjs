@@ -7,10 +7,10 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: "Pine Engine",
-			social: {
-				discord: "https://discord.gg/JwbyQP4tdz",
-				github: "https://github.com/Prozilla/Pine",
-			},
+			social: [
+				{ icon: "discord", label: "Discord", href: "https://discord.gg/JwbyQP4tdz" },
+				{ icon: "github", label: "GitHub", href: "https://github.com/Prozilla/Pine" },
+			],
 			logo: {
 				dark: "./public/logo-dark.svg",
 				light: "./public/logo-light.svg",
@@ -43,7 +43,8 @@ export default defineConfig({
 			},
 			editLink: {
 				baseUrl: "https://github.com/Prozilla/Pine-site/edit/main/"
-			}
+			},
+			routeMiddleware: "./src/routeData.ts",
 		}),
 	],
 	server: {
