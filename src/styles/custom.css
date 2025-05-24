@@ -137,11 +137,11 @@
 }
 
 [data-has-hero] .hero::after {
-	background-image: url("./public/hero-background.png");
+	background-image: url("@assets/hero-background.png");
 	background-size: cover;
 	background-position: center;
 	opacity: 0.2;
-	filter: grayscale(50%) brightness(50%);
+	filter: brightness(50%);
 	z-index: -2;
 }
 

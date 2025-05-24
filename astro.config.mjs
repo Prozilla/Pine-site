@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
+import { fileURLToPath, URL } from "node:url";
 
 // https://astro.build/config
 export default defineConfig({
@@ -47,10 +48,15 @@ export default defineConfig({
 			routeMiddleware: "./src/routeData.ts",
 		}),
 	],
-	server: {
-		port: 3000,
-	},
+	server: ({ command }) => ({ port: command === "preview" ? 8080 : 3000 }),
 	devToolbar: {
 		enabled: false,
 	},
+	vite: {
+		resolve: {
+			alias: {
+				"@assets": fileURLToPath(new URL("./src/assets", import.meta.url)),
+			}
+		}
+	}
 });
