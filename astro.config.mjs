@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import { fileURLToPath, URL } from "node:url";
+import starlightKbd from "starlight-kbd";
 
 // https://astro.build/config
 export default defineConfig({
@@ -9,8 +10,8 @@ export default defineConfig({
 		starlight({
 			title: "Pine Engine",
 			social: [
-				{ icon: "discord", label: "Discord", href: "https://discord.gg/JwbyQP4tdz" },
 				{ icon: "github", label: "GitHub", href: "https://github.com/Prozilla/Pine" },
+				{ icon: "discord", label: "Discord", href: "https://discord.gg/JwbyQP4tdz" },
 			],
 			logo: {
 				dark: "./public/logo-dark.svg",
@@ -46,6 +47,16 @@ export default defineConfig({
 				baseUrl: "https://github.com/Prozilla/Pine-site/edit/main/"
 			},
 			routeMiddleware: "./src/routeData.ts",
+			plugins: [
+				starlightKbd({
+					globalPicker: false,
+					types: [
+						{ id: "mac", label: "macOS" },
+						{ id: "windows", label: "Windows", default: true },
+						{ id: "linux", label: "Linux" },
+					],
+				}),
+			],
 		}),
 	],
 	server: ({ command }) => ({ port: command === "preview" ? 8080 : 3000 }),

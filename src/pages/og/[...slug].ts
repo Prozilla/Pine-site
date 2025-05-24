@@ -13,6 +13,9 @@ const font: FontConfig = {
 export const { getStaticPaths, GET } = OGImageRoute({
 	pages,
 	param: "slug",
+
+	// https://github.com/delucis/astro-og-canvas/tree/latest/packages/astro-og-canvas#image-options
+	// Convert HSL to RGB: https://www.w3schools.com/colors/colors_hsl.asp
 	getImageOptions: (_id, page: (typeof pages)[number]) => {
 		return {
 			title: page.data.title,
@@ -39,5 +42,3 @@ export const { getStaticPaths, GET } = OGImageRoute({
 		}
 	},
 });
-
-// [46, 204, 113], [39, 174, 117], [52, 152, 219]

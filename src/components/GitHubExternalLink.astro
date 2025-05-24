@@ -1,0 +1,21 @@
+---
+import { LinkButton } from "@astrojs/starlight/components";
+interface Props {
+	path: string;
+}
+const { path } = Astro.props;
+
+
+const url = "https://github.com/Prozilla/Pine/tree/main/" + path;
+---
+
+<LinkButton class="github-link" href={url} variant="secondary" icon="external" target="_blank">
+	View Source Code
+</LinkButton>
+
+<style>
+	.github-link {
+		font-size: var(--sl-text-sm);
+		padding: 0.625rem 0.825rem;
+	}
+</style>

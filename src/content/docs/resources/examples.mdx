@@ -4,17 +4,24 @@ description: Examples projects made using the Pine engine in Java.
 ---
 
 import FluidGrid from "~/components/FluidGrid.astro";
-import ShowcaseCard from "~/components/ShowcaseCard.astro";
+import ExampleCard from "~/components/ExampleCard.astro";
+
+Examples projects made using the Pine engine in Java.
 
 <FluidGrid>
-	<ShowcaseCard
-		title="Flappy Bird"
-		href="https://github.com/Prozilla/Pine/blob/main/examples/src/main/java/dev/prozilla/pine/examples/flappybird"
-		thumbnail="flappy-bird.png"
+	<ExampleCard
+		title="Sokoban"
+		href="sokoban"
+		thumbnail="sokoban/sokoban-icon.png"
 	/>
-	<ShowcaseCard
+	<ExampleCard
+		title="Flappy Bird"
+		href="flappy-bird"
+		thumbnail="flappy-bird/flappy-bird-icon.png"
+	/>
+	<ExampleCard
 		title="Snake"
-		href="https://github.com/Prozilla/Pine/blob/main/examples/src/main/java/dev/prozilla/pine/examples/snake"
-		thumbnail="snake.png"
+		href="snake"
+		thumbnail="snake/snake-icon.png"
 	/>
 </FluidGrid>

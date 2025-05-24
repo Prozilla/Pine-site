@@ -8,7 +8,8 @@ export const collections = {
 		loader: docsLoader(),
 		schema: docsSchema({
 			extend: z.object({
-				javadoc: z.string().optional()
+				javadoc: z.string().optional(),
+				github: z.string().optional(),
 			}),
 		})
 	}),

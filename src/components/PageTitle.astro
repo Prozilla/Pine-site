@@ -3,7 +3,9 @@ import { Breadcrumbs } from "astro-breadcrumbs";
 import "astro-breadcrumbs/breadcrumbs.css";
 import { Icon } from "@astrojs/starlight/components";
 import JavadocExternalLink from "./JavadocExternalLink.astro";
-const { title, javadoc } = Astro.locals.starlightRoute.entry.data;
+import GitHubExternalLink from "./GitHubExternalLink.astro";
+
+const { title, javadoc, github } = Astro.locals.starlightRoute.entry.data;
 ---
 
 <Breadcrumbs truncated={true} linkTextFormat={"sentence"}>
@@ -28,6 +30,7 @@ const { title, javadoc } = Astro.locals.starlightRoute.entry.data;
 <div class="title-wrapper">
 	<h1 id="_top">{title}</h1>
 	{javadoc && <JavadocExternalLink name={javadoc}/>}
+	{github && <GitHubExternalLink path={github}/>}
 </div>
 
 <style>
