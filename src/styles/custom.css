@@ -85,16 +85,68 @@
 	--code-background: var(--sl-color-gray-7) !important;
 }
 
-[data-has-hero] body {
-	background-color: color-mix(in oklab, var(--sl-color-bg), var(--pine-brand-1) 5%);
+[data-has-hero] main .content-panel:first-child {
+	padding: 0;
 }
 
-[data-has-hero] .page {
-	--color-1: rgba(46, 204, 113, 0.1);
-	--color-2: rgba(39, 174, 117, 0.1);
-	--color-3: rgba(52, 152, 219, 0.2);
+[data-has-hero] .content-panel .sl-container {
+	max-width: unset;
+}
 
-	background: linear-gradient(215deg,var(--color-1),transparent 40%),radial-gradient(var(--color-2),transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,radial-gradient(var(--color-3),transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
+[data-has-hero] .sl-markdown-content,
+[data-has-hero] .hero {
+	max-width: var(--sl-content-width);
+}
+
+@media (min-width: 72rem) {
+	[data-has-hero] .sl-markdown-content,
+	[data-has-hero] .hero {
+		margin-inline: var(--sl-content-margin-inline, auto);
+	}
+}
+
+[data-has-hero] .sl-markdown-content {
+	padding: 2rem var(--sl-content-pad-x);
+}
+
+[data-has-hero] .hero {
+	position: relative;
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
+
+@media (max-width: 50rem) {
+	[data-has-hero] .hero {
+		padding-top: 2rem;	
+	}
+}
+
+[data-has-hero] .hero::after,
+[data-has-hero] .hero::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: min(calc((var(--sl-content-width) - 100vw) / 2), 0px);
+	right: min(calc((var(--sl-content-width) - 100vw) / 2), 0px);
+	height: 100%;
+}
+
+[data-has-hero] .hero::before {
+	background: radial-gradient(rgba(52, 152, 219, 0.8), rgba(52, 152, 219, 0.2));
+	z-index: -1;
+}
+
+[data-has-hero] .hero::after {
+	background-image: url("hero-background.png");
+	background-size: cover;
+	background-position: center;
+	opacity: 0.2;
+	filter: grayscale(50%) brightness(50%);
+	z-index: -2;
+}
+
+[data-has-hero] .tagline {
+	color: var(--sl-color-gray-1);
 }
 
 [data-has-hero] .page .card {
