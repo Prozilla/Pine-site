@@ -12,7 +12,7 @@ In Pine, input handling is done by [input systems](../systems).
 
 ## Keyboard
 
-Keyboard keys are represented as values of the <JavadocLink name="dev.prozilla.pine.core.state.input.Key"/>, which maps keys to [GLFW keyboard key tokens](https://www.glfw.org/docs/3.3/group__keys.html).
+Keyboard keys are represented as values of the <JavadocLink name="dev.prozilla.pine.core.state.input.Key"/> enum, which maps keys to [GLFW keyboard key tokens](https://www.glfw.org/docs/3.3/group__keys.html).
 
 ```java
 // Returns true in every frame while the space key is being pressed
@@ -45,6 +45,12 @@ Instead of using the <JavadocLink name="dev.prozilla.pine.core.state.input.Key"/
 import static org.lwjgl.glfw.GLFW.*;
 
 boolean spacePressed = input.getKey(GLFW_KEY_SPACE);
+```
+
+This is the equivalent of:
+
+```java
+boolean spacePressed = input.getKey(Key.SPACE);
 ```
 
 ## Mouse
@@ -81,7 +87,7 @@ Entity cursorBlocker = input.getCursorBlocker();
 
 ### Buttons
 
-Mouse buttons are represented as values of the <JavadocLink name="dev.prozilla.pine.core.state.input.MouseButton"/>, which maps buttons to [GLFW mouse buttons](https://www.glfw.org/docs/3.3/group__buttons.html).
+Mouse buttons are represented as values of the <JavadocLink name="dev.prozilla.pine.core.state.input.MouseButton"/> enum, which maps buttons to [GLFW mouse buttons](https://www.glfw.org/docs/3.3/group__buttons.html).
 
 ```java
 // Returns true in every frame while the left mouse button is being pressed

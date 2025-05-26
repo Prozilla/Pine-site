@@ -7,6 +7,7 @@ javadoc: dev.prozilla.pine.core.system.*
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
+import JavadocLink from "~/components/JavadocLink.astro";
 
 Systems look for certain combinations of components in entities and modify the data of said components in each frame. Systems determine the behaviour of entities.
 
@@ -26,7 +27,7 @@ Input, update and render systems are executed in each frame in the order specifi
 
 Below is a list of 3 different ways of creating systems, orderered from most to least simple. 
 All examples are update systems, but other types of systems can be created in the same way.
-The examples are systems that require a `Transform` component.
+The examples are systems that require a <JavadocLink name="dev.prozilla.pine.core.component.Transform"/> component.
 
 ### Option 1: Extending system base class
 

@@ -29,7 +29,20 @@ public class SpriteRenderer extends Component {
 Components can be attached to entities. This will trigger any initialisation system that requires a component of the component's class.
 
 ```java
+// Attaches the sprite renderer component to the entity
 SpriteRenderer spriteRenderer = entity.addComponent(new SpriteRenderer());
+```
+
+## Removing components from entities
+
+After a component is removed, it can be attached to another entity, unless it was also destroyed.
+
+```java
+// Detaches the sprite renderer component from the entity
+entity.removeComponent(spriteRenderer);
+
+// Destroys the component and detaches it
+spriteRenderer.destroy();
 ```
 
 ## Getting components of entities
