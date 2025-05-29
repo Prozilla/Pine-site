@@ -1,0 +1,89 @@
+---
+title: User Interface
+sidebar:
+  order: 8
+javadoc: dev.prozilla.pine.core.component.ui.Node
+---
+
+import JavadocLink from "~/components/JavadocLink.astro";
+import { Aside } from "@astrojs/starlight/components";
+
+User interfaces in Pine are made using nodes.
+Nodes are created by adding specific components, including the <JavadocLink name="dev.prozilla.pine.core.component.ui.Node"/> component, to an entity and adding that entity to a parent entity with the <JavadocLink name="dev.prozilla.pine.core.component.ui.NodeRoot"/> component.
+Nodes can be styled using a <JavadocLink name="dev.prozilla.pine.common.property.style.StyleSheet"/>, which can be created from a CSS file.
+
+## Prefabs
+
+Pine has different prefabs for different types of nodes, which often have an HTML equivalent. Here is an overview of the prefabs, the components each prefab has (where the <JavadocLink name="dev.prozilla.pine.core.component.ui.Node"/> component is omitted) and their HTML equivalents:
+
+| Prefab class | Components | HTML equivalent |
+| --- | --- | --- |
+| <JavadocLink name="dev.prozilla.pine.core.entity.prefab.ui.LayoutPrefab"/> | <JavadocLink name="dev.prozilla.pine.core.component.ui.LayoutNode"/> | `<div></div>` |
+| <JavadocLink name="dev.prozilla.pine.core.entity.prefab.ui.TextPrefab"/> | <JavadocLink name="dev.prozilla.pine.core.component.ui.TextNode"/> | `<p></p>` |
+| <JavadocLink name="dev.prozilla.pine.core.entity.prefab.ui.ImagePrefab"/> | <JavadocLink name="dev.prozilla.pine.core.component.ui.ImageNode"/> | `<img/>` |
+| <JavadocLink name="dev.prozilla.pine.core.entity.prefab.ui.TextButtonPrefab"/> | <JavadocLink name="dev.prozilla.pine.core.component.ui.TextNode"/>, <JavadocLink name="dev.prozilla.pine.core.component.ui.ButtonNode"/> | `<button></button>` |
+| <JavadocLink name="dev.prozilla.pine.core.entity.prefab.ui.ImageButtonPrefab"/> | <JavadocLink name="dev.prozilla.pine.core.component.ui.ImageNode"/>, <JavadocLink name="dev.prozilla.pine.core.component.ui.ButtonNode"/> | `<button><img/></button>` |
+
+## Styling
+
+In Pine, nodes are styled using a <JavadocLink name="dev.prozilla.pine.common.property.style.StyleSheet"/>.
+When using one of Pine's built-in node prefabs, a stylesheet will be created whenever it is needed and applied to the node during the instantiation of the prefab.
+The stylesheet is applied to the node using a <JavadocLink name="dev.prozilla.pine.core.component.ui.style.NodeStyle"/> component, which reads the stylesheets and creates properties that will dynamically update the style of the node based on a set of rules.
+
+The `addClass(className)` and `addClasses(classNames)` methods in combination with a <JavadocLink name="dev.prozilla.pine.common.property.style.selector.ClassSelector"/> can be used to style specific nodes, just like in CSS.
+
+<Aside>
+
+Not all CSS properties are supported and some are slightly different, e.g. `anchor` instead of `top` and `bottom`, `size` instead of `width` and `height`. See <JavadocLink name="dev.prozilla.pine.common.property.style.StyledPropertyKey"/> for a full list of the available property names.
+
+</Aside>
+
+### Implicit stylesheets in Java
+
+When passing a non-fixed value (i.e., a <JavadocLink name="dev.prozilla.pine.common.property.VariableProperty"/>) to one of the setters of a node prefab, the prefab will create a new stylesheet (unless it already had one) and add a rule to that stylesheet using that value.
+
+```java
+// Creates a stylesheet and adds a rule that animates the color from white to black with an easing function, alternating every second
+nodePrefab.setColor(new AnimatedColorProperty(Color.white(), Color.black(), new AnimationCurve(1f, Easing.EASE, AnimationDirection.ALTERNATE)));
+```
+
+### Explicit stylesheets in Java
+
+For more control, you can create a stylesheet in Java and then add it to the node prefab.
+
+```java
+StyleSheet styleSheet = new StyleSheet();
+
+// Adds a rule to the stylesheet that sets the color to red for all nodes
+styleSheet.addRule(Selector.UNIVERSAL, StyledPropertyKey.COLOR, new Color(1f, 0f, 0f));
+
+// Adds a rule to the stylesheet that sets the color to blue for all hovered nodes
+styleSheet.addRule(ModifierSelector.HOVER, StyledPropertyKey.COLOR, new Color(0f, 0f, 1f));
+
+// Adds a transition with an easing function for the color of all nodes that takes half a second
+styleSheet.addTransition(Selector.UNIVERSAL, StyledPropertyKey.COLOR, new AnimationCurve(0.5f, Easing.EASE));
+
+nodePrefab.setStyleSheet(styleSheet);
+```
+
+### External stylesheets in CSS
+
+External stylesheets can be used to separate the design of a user interface from the rest of the codebase.
+Stylesheets are also resources that can be loaded efficiently using the [resource pool](../resources).
+The following code is equivalent to the code in the [previous section](#explicit-stylesheets-in-java).
+
+```css title="style.css"
+* {
+	color: rgb(255, 0, 0);
+	transition: color 0.5s ease;
+}
+
+*:hover {
+	color: rgb(0, 0, 255);
+}
+```
+
+```java
+nodePrefab.setStyleSheet("style.css");
+```
+

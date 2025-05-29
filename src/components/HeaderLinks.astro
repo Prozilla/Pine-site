@@ -1,0 +1,8 @@
+---
+import HeaderLink from "./HeaderLink.astro";
+const { class: className } = Astro.props;
+---
+
+<div class={`sl-flex links ${className}`}>
+	<HeaderLink href="https://github.com/Prozilla/Pine/releases" label="Changelog"/>
+</div>

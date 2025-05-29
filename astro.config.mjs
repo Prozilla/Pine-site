@@ -34,6 +34,8 @@ export default defineConfig({
 			],
 			components: {
 				PageTitle: "./src/components/PageTitle.astro",
+				Header: "./src/components/Header.astro",
+				MobileMenuFooter: "./src/components/MobileMenuFooter.astro",
 			},
 			customCss: [
 				"./src/styles/custom.css",

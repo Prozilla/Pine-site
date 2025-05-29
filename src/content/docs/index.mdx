@@ -26,7 +26,7 @@ import About from "~/components/About.astro";
 
 <About title="About Pine">
 	Pine is an abbreviation for **P**rozilla's game eng**ine**.
-	Pine implements the [LWJGL](https://www.lwjgl.org/) library to enable cross-platform access to native API's like OpenGL, Vulkan, OpenAL, OpenCL and more.
+	Pine implements the [LWJGL](https://www.lwjgl.org/) library to enable cross-platform access to native API's like OpenGL, OpenAL, GLFW and more.
 	It provides a high-level and developer-friendly framework on top of the native libraries that LWJGL provides.
 
 	<CardGrid stagger>
@@ -37,7 +37,10 @@ import About from "~/components/About.astro";
 			Thanks to Pine's robust ECS implementation and many other optimizations, it runs blazingly fast, even on low-end devices.
 		</Card>
 		<Card title="Powered by LWJGL" icon="puzzle">
-			Pine implements the [LWJGL](https://www.lwjgl.org/) library to enable cross-platform access to native API's like OpenGL, Vulkan, OpenAL, OpenCL and more.
+			Pine implements the [LWJGL](https://www.lwjgl.org/) library to enable cross-platform access to native API's like OpenGL, OpenAL, GLFW and more.
+		</Card>
+		<Card title="Web-inspired UI features" icon="seti:html">
+			Some parts of Pine are inspired by web technologies (HTML, CSS and JS), especially the API for UI features. Pine also allows you to use CSS to style your user interfaces.
 		</Card>
 	</CardGrid>
 </About>
