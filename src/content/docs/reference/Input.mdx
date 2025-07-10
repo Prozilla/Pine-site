@@ -94,7 +94,7 @@ Mouse buttons are represented as values of the <JavadocLink name="dev.prozilla.p
 boolean leftMouseButtonPressed = input.getMouseButton(MouseButton.LEFT);
 
 // Returns true in the first frame the left mouse button is down
-boolean leftMouseButtonDown = input.getMouseButton(MouseButton.LEFT);
+boolean leftMouseButtonDown = input.getMouseButtonDown(MouseButton.LEFT);
 ```
 
 #### Stopping propagation
@@ -103,7 +103,7 @@ To prevent later systems from reading the same mouse button input, use the follo
 
 ```java
 boolean leftMouseButtonPressed = input.getMouseButton(MouseButton.LEFT, true);
-boolean leftMouseButtonDown = input.getMouseButton(MouseButton.LEFT, true);
+boolean leftMouseButtonDown = input.getMouseButtonDown(MouseButton.LEFT, true);
 ```
 
 #### Using GLFW mouse buttons
@@ -138,10 +138,80 @@ import static org.lwjgl.glfw.GLFW.*;
 input.setCursorType(GLFW_ARROW_CURSOR);
 
 // Show a custom cursor image
-Image cursorImage = ResourcePool.loadImage("textures/cursor.png");
+Image cursorImage = AssetPools.images.load("textures/cursor.png");
 input.setCursorImage(cursorImage);
 
 // Show a custom cursor image with an offset of 16x16 pixels
 input.setCursorImage(cursorImage, 16, 16);
 input.setCursorImage(cursorImage, new Vector2i(16, 16));
+```
+
+## Gamepad
+
+Pine supports up to 16 gamepads.
+Once a gamepad is connected, it is assigned a unique ID.
+The following method returns `true` when the gamepad with the given ID is currently connected.
+
+```java
+int gamepadId = ...
+boolean isConnected = input.isGamepadConnected(gamepadId);
+```
+
+The next methods are used to retrieve gamepads.
+
+```java
+// Retrieve the first gamepad, or a fallback gamepad which returns `0f` for all axes and `false` for all buttons if no gamepad is connected.
+GamepadInput gamepad = input.getGamepad();
+
+// Retrieve a specific gamepad
+int gamepadId = ...
+GamepadInput gamepad = input.getGamepad(gamepadId); // Will throw an error if the ID is invalid or the corresponding gamepad is not connected
+```
+
+### Buttons
+
+Gamepad buttons are represented as values of the <JavadocLink name="dev.prozilla.pine.core.state.input.gamepad.GamepadButton"/> enum, which maps buttons to [GLFW gamepad buttons](https://www.glfw.org/docs/3.3/group__gamepad__buttons.html).
+The buttons CROSS, CIRCLE, SQUARE and TRIANGLE are respectively equal to A, B, X and Y.
+
+```java
+// Returns true in every frame while the circle button is being pressed
+boolean circleButtonPressed = gamepad.getButton(GamepadButton.CIRCLE);
+
+// Returns true in the first frame the circle button is down
+boolean circleButtonDown = gamepad.getButtonDown(GamepadButton.CIRCLE);
+```
+
+#### Using GLFW gamepad buttons
+
+Instead of using the <JavadocLink name="dev.prozilla.pine.core.state.input.gamepad.GamepadButton"/> enum, you can also use GLFW gamepad buttons directly.
+
+```java
+import static org.lwjgl.glfw.GLFW.*;
+
+boolean circleButtonPressed = gamepad.getButton(GLFW_GAMEPAD_BUTTON_CIRCLE);
+```
+
+### Axes
+
+Gamepad axes are represented as values of the <JavadocLink name="dev.prozilla.pine.core.state.input.gamepad.GamepadAxis"/> enum, which maps axes to [GLFW gamepad axes](https://www.glfw.org/docs/3.3/group__gamepad__axes.html).
+
+```java
+// Returns the value of the horizontal axis of the left joystick
+float leftX = gamepad.getAxis(GamepadAxis.LEFT_X);
+
+// Returns the value of the vertical axis of the right joystick
+float rightY = gamepad.getAxis(GamepadAxis.RIGHT_Y);
+
+// Returns the value of the left trigger
+float leftTrigger = gamepad.getAxis(GamepadAxis.LEFT_TRIGGER);
+```
+
+#### Using GLFW gamepad axes
+
+Instead of using the <JavadocLink name="dev.prozilla.pine.core.state.input.gamepad.GamepadAxis"/> enum, you can also use GLFW gamepad axes directly.
+
+```java
+import static org.lwjgl.glfw.GLFW.*;
+
+float leftX = gamepad.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X);
 ```

@@ -1,0 +1,45 @@
+---
+title: Asset loading
+description: Pine uses asset pools to manage assets efficiently, by avoiding loading assets multiple times.
+sidebar:
+  order: 7
+javadoc: dev.prozilla.pine.common.asset.pool.AssetPool
+---
+
+import JavadocLink from "~/components/JavadocLink.astro";
+import { Aside } from "@astrojs/starlight/components";
+
+Pine uses asset pools to manage assets efficiently, by avoiding loading assets multiple times.
+There is a separate pool for every type of asset.
+The asset pools each take a string that represents the path to a file, then load that file as an asset, add it to the pool and return it.
+Then, if you use the asset pool to load that same file again, it will return the pooled asset instead of loading it again.
+
+Classes that use assets, like the <JavadocLink name="dev.prozilla.pine.core.component.sprite.SpriteRenderer"/> component or <JavadocLink name="dev.prozilla.pine.core.component.ui.ImageNode"/> component, will often provide an alternative method or constructor that has a path (string) instead of an asset as an argument.
+These use the asset pools to load the assets efficiently based on the given path.
+
+```java
+Image image = AssetPools.images.load("images/image.png");
+
+Texture texture = AssetPools.textures.load("images/image.png"); // Will call the previous line internally
+
+Font font = AssetPools.fonts.load("fonts/font.ttf"); // Loads a font with the default font size (16)
+Font font = AssetPools.fonts.load("fonts/font.ttf", 16);
+
+StyleSheet styleSheet = AssetPools.styleSheets.load("style/sheet.css");
+
+AudioSource audioSource = AssetPools.audioSources.load("audio/sound.ogg");
+```
+
+<Aside>
+
+Instances of the <JavadocLink name="dev.prozilla.pine.common.asset.image.Texture"/> class are created using instances of the <JavadocLink name="dev.prozilla.pine.common.asset.image.Image"/> class.
+Therefore, loading a texture from a given path that has not been pooled yet, will first load the image from that path (unless it has already been pooled) and add it to the pool, then use that to create a new texture.
+
+</Aside>
+
+The following method can be used to discard all pooled assets.
+This might be useful when switching between two scenes that do not share many assets, to free up more memory.
+
+```java
+AssetPools.clear();
+```
