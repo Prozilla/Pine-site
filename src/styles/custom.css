@@ -53,16 +53,16 @@
 	box-shadow: var(--sl-shadow-md);
 }
 
-.sidebar-content {
-	padding: 1.5rem var(--sl-sidebar-pad-x) 0;
-}
-
 .main-pane main .content-panel:first-child {
 	padding: 2rem var(--sl-content-pad-x) 1.5rem;
 }
 
 .right-sidebar-panel {
 	padding: 1.5rem var(--sl-sidebar-pad-x);
+}
+
+.title-wrapper h1 {
+	text-transform: capitalize;
 }
 
 /* Breadcrumbs */
@@ -182,4 +182,14 @@
 }
 [data-footnote-ref]::after {
 	content: "]";
+}
+
+/* Sidebar */
+
+.sidebar-content {
+	padding: 1.5rem var(--sl-sidebar-pad-x) 0;
+}
+
+.sidebar-content a, .sidebar-content .group-label {
+	text-transform: capitalize;
 }

@@ -5,11 +5,19 @@ sidebar:
   order: 2
 ---
 
-import { Steps } from "@astrojs/starlight/components";
-import { Tabs, TabItem } from "@astrojs/starlight/components";
-import { Code } from "@astrojs/starlight/components";
+import { Steps, LinkButton, Tabs, TabItem, Code } from "@astrojs/starlight/components";
+import { PINE_VERSION } from "../../../constants/constants.ts";
 
-The Pine engine is distributed using [GitHub Packages](https://github.com/Prozilla/Pine/packages/2343840).
+The Pine engine is distributed using [GitHub Packages](https://github.com/Prozilla/Pine/packages/2343840). The [GitHub Packages docs](https://docs.github.com/en/packages) contain more information about how it works.
+
+:::note
+
+Some examples below might use an older version of Pine. Make sure you replace the version number with the latest version of Pine, or with whatever version you want to use.
+
+<LinkButton href="https://github.com/Prozilla/Pine/releases" variant="secondary" icon="external">All releases</LinkButton>
+<LinkButton href="https://github.com/Prozilla/Pine/releases/latest" variant="secondary" icon="external">Latest release</LinkButton>
+
+:::
 
 ## Option 1: Use boilerplate project setup
 
@@ -27,27 +35,52 @@ The Pine engine is distributed using [GitHub Packages](https://github.com/Prozil
 
 1. In your `build.gradle` file, add the following lines:
 
-	<Code code={`
-		repositories {
-			mavenCentral()
-			maven {
-				url "https://repo.gradle.org/gradle/libs-releases"
-			}
-			maven {
-				url = uri("https://maven.pkg.github.com/prozilla/pine")
-				credentials {
-					username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-					password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
+	<Tabs>
+		<TabItem label="Groovy">
+			<Code code={`
+			repositories {
+				mavenCentral()
+				maven {
+					url "https://repo.gradle.org/gradle/libs-releases"
+				}
+				maven {
+					url = uri("https://maven.pkg.github.com/prozilla/pine")
+					credentials {
+						username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+						password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
+					}
 				}
 			}
-		}
 
-		dependencies {
-			implementation "dev.prozilla:pine:1.2.1"
-		}
-	`} title="build.gradle" lang="groovy" />
+			dependencies {
+				implementation "dev.prozilla:pine:${PINE_VERSION}"
+			}
+			`} title="build.gradle" lang="groovy" />
+		</TabItem>
+		<TabItem label="Kotlin">
+			<Code code={`
+			repositories {
+				mavenCentral()
+				maven {
+					url = uri("https://repo.gradle.org/gradle/libs-releases")
+				}
+				maven {
+					url = uri("https://maven.pkg.github.com/prozilla/pine")
+					credentials {
+						username = findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+						password = findProperty("gpr.token") as String? ?: System.getenv("TOKEN")
+					}
+				}
+			}
 
-2. Create a file with your environment variables. Replace `YOUR_USERNAME` and `YOUR_TOKEN` with your GitHub username and token respectively.
+			dependencies {
+				implementation("dev.prozilla:pine:${PINE_VERSION}")
+			}
+			`} title="build.gradle.kts" lang="kotlin" />
+		</TabItem>
+	</Tabs>
+
+2. Create a `gradle.properties` file or a `.env` file with your environment variables. Replace `YOUR_USERNAME` and `YOUR_TOKEN` with your GitHub username and token respectively.
 
 	<Tabs>
 		<TabItem label="gradle.properties">
@@ -59,5 +92,78 @@ The Pine engine is distributed using [GitHub Packages](https://github.com/Prozil
 	</Tabs>
 
 	Make sure to add this file to `.gitignore` so it remains private.
+
+</Steps>
+
+## Option 3: Install using Maven
+
+<Steps>
+
+1. In your `pom.xml` file, add the following lines:
+
+	<Code code={`
+		<repositories>
+			<repository>
+				<id>gradle-releases</id>
+				<url>https://repo.gradle.org/gradle/libs-releases</url>
+			</repository>
+
+			<repository>
+				<id>pine-github</id>
+				<url>https://maven.pkg.github.com/prozilla/pine</url>
+			</repository>
+		</repositories>
+
+		<dependencies>
+			<dependency>
+				<groupId>dev.prozilla</groupId>
+				<artifactId>pine</artifactId>
+				<version>${PINE_VERSION}</version>
+			</dependency>
+		</dependencies>
+	`} title="pom.xml" lang="xml" />
+
+2. Create a global `settings.xml` file in your Maven configuration folder (`.m2`) that stores your GitHub credentials. Replace `YOUR_USERNAME` and `YOUR_TOKEN` with your GitHub username and token respectively.
+
+	<Code code={`
+		<settings>
+			<servers>
+				<server>
+					<id>pine-github</id>
+					<username>YOUR_USERNAME</username>
+					<password>YOUR_TOKEN</password>
+				</server>
+			</servers>
+		</settings>
+	`} title=".m2/settings.xml" lang="xml"/>
+
+</Steps>
+
+## Option 4: Using JARs
+
+It is possible to use Pine by downloading the JARs of Pine and its dependencies and adding them to the classpath.
+Sources and Javadoc JARs are also available.
+
+<Steps>
+
+1. Go to the [Releases page](https://github.com/Prozilla/Pine/releases) and download the JAR of the version you want to use.
+2. Download the JARs of each dependency:
+
+	- [LWJGL](https://www.lwjgl.org/download)
+		- Core
+		- GLFW
+		- OpenGL
+		- OpenAL
+		- stb
+		- Natives (Determined by the target platform)
+	- [Jackson](https://repo1.maven.org/maven2/com/fasterxml/jackson/core/)
+		- Core
+		- Databind
+		- Annotations
+
+	<br/>
+
+3. Create a `lib` folder and move the JARs inside this folder
+4. Add all JARs to your classpath
 
 </Steps>
