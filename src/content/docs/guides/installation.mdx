@@ -21,11 +21,13 @@ Some examples below might use an older version of Pine. Make sure you replace th
 
 ## Option 1: Use boilerplate project setup
 
+This is the same as [option 2](#option-2-install-using-gradle), but with most of the work already done for you.
+
 <Steps>
 
-1. Fork the [Pine-boilerplate repository](https://github.com/Prozilla/Pine-boilerplate).
-2. Read the setup guide in the README file
-3. Customize the project to suit your needs
+1. Fork the [Pine-boilerplate repository](https://github.com/Prozilla/Pine-boilerplate)
+2. Follow the setup guide in the README file
+3. Change the package name to something that suits your project (Optional)
 
 </Steps>
 
@@ -167,3 +169,17 @@ Sources and Javadoc JARs are also available.
 4. Add all JARs to your classpath
 
 </Steps>
+
+## Minimal example
+
+The following code can be used to verify whether the installation of Pine was succesful or not. If no exception is thrown and a blank window opens, that means everything is working.
+
+```java
+public class Main {
+
+	public static void main(String[] args) {
+		new ApplicationBuilder().build().run();
+	}
+
+}
+```

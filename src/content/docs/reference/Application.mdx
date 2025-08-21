@@ -5,15 +5,48 @@ sidebar:
 javadoc: dev.prozilla.pine.core.Application
 ---
 
+import { Steps } from "@astrojs/starlight/components";
 import JavadocLink from "~/components/JavadocLink.astro";
 
 ## Lifecycle
 
-1. Initialization
-2. Input handling
-3. Updating
-4. Rendering
-5. Destruction
+Almost all objects used in Pine conform to the following lifecycle structure. Not all objects utilize every lifecycle stage. The lifecycle has its own separate [package](https://javadoc.pine.prozilla.dev/dev/prozilla/pine/common/lifecycle/package-summary.html), which contains interfaces for every stage.
+
+<Steps>
+
+1. **Initialization**
+
+	Performs setup that is required for object usage, but too heavy or context-dependent for the constructor.
+
+	A good example is a [Scene](./Scene.mdx) object, which should not load all its entities, components and systems immediately when the object is created, but rather whenever the application is requesting to load this specific scene. Because there is no need for all those entities, components and systems to be actively used or even in memory when the scene isn't active.
+
+2. **Main Loop**
+
+	This loop runs once per frame and continues until the application stops.
+
+	<Steps>
+
+	1. **Input Handling**
+
+		Reads data from input devices. In this stage, input systems process data from input devices and write data to components accordingly.
+
+	2. **Updating**
+
+		Modifies data, often based on the time passed since the last frame (delta time). This stage often includes transforming data received indirectly from input devices via input handlers, to data that can be shown on the screen by a renderer. In this stage, update systems read and write data from and to components. 
+
+	3. **Rendering**
+
+		Writes data to the GPU to render geometry. In this stage, render systems read data from components and visualize them on the screen.
+
+	</Steps>
+
+3. **Destruction**
+
+	Disposes of objects and frees up memory. This is often the inverse of the initialization stage. After this stage, objects should no longer be used.
+
+	Objects that contain other destructible objects also destroy them when they are destroyed. When an object that is contained in another object is destroyed, it removes itself from that container. An example of this is an [Entity](./Entities.mdx); when an entity is destroyed, it also destroys all of its children and removes itself from its parent.
+
+</Steps>
 
 ## Creating an application
 
@@ -51,7 +84,7 @@ Application myApplication = applicationBuilder.build();
 
 ## Running an application
 
-The `run()` method initializes the application and then starts it. This method will also catch any exceptions and log them.
+The `run()` method initializes the application and then starts it. This method will also handle exceptions thrown by the application.
 
 ```java
 myApplication.run();
@@ -59,7 +92,7 @@ myApplication.run();
 
 ## Pausing and resuming an application
 
-Pausing an application changes its state to `PAUSED` and sets the time scale to `0f`.
+Pausing an application changes its state to `PAUSED` and sets the time scale to `0f`. Systems that apply the time scale will temporarily stop running while the application is paused.
 
 ```java
 myApplication.pause();
