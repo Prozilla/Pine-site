@@ -4,10 +4,11 @@ import { CardGrid, LinkCard } from "@astrojs/starlight/components";
 
 interface Props {
   directory: string;
+  showHidden?: boolean;
 }
-const { directory } = Astro.props;
+const { directory, showHidden = false } = Astro.props;
 
-const pages = await getCollection("docs", (entry) => entry.id.startsWith(directory + "/") && !entry.data.sidebar.hidden).catch((error) => {
+const pages = await getCollection("docs", (entry) => entry.id.startsWith(directory + "/") && (showHidden || !entry.data.sidebar.hidden)).catch((error) => {
 	console.error(error);
 	return null;
 });
