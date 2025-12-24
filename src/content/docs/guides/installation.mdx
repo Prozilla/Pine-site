@@ -40,44 +40,44 @@ This is the same as [option 2](#option-2-install-using-gradle), but with most of
 	<Tabs>
 		<TabItem label="Groovy">
 			<Code code={`
-			repositories {
-				mavenCentral()
-				maven {
-					url "https://repo.gradle.org/gradle/libs-releases"
-				}
-				maven {
-					url = uri("https://maven.pkg.github.com/prozilla/pine")
-					credentials {
-						username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-						password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
-					}
+		repositories {
+			mavenCentral()
+			maven {
+				url "https://repo.gradle.org/gradle/libs-releases"
+			}
+			maven {
+				url = uri("https://maven.pkg.github.com/prozilla/pine")
+				credentials {
+					username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+					password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
 				}
 			}
+		}
 
-			dependencies {
-				implementation "dev.prozilla:pine:${PINE_VERSION}"
-			}
+		dependencies {
+			implementation "dev.prozilla:pine:${PINE_VERSION}"
+		}
 			`} title="build.gradle" lang="groovy" />
 		</TabItem>
 		<TabItem label="Kotlin">
 			<Code code={`
-			repositories {
-				mavenCentral()
-				maven {
-					url = uri("https://repo.gradle.org/gradle/libs-releases")
-				}
-				maven {
-					url = uri("https://maven.pkg.github.com/prozilla/pine")
-					credentials {
-						username = findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-						password = findProperty("gpr.token") as String? ?: System.getenv("TOKEN")
-					}
+		repositories {
+			mavenCentral()
+			maven {
+				url = uri("https://repo.gradle.org/gradle/libs-releases")
+			}
+			maven {
+				url = uri("https://maven.pkg.github.com/prozilla/pine")
+				credentials {
+					username = findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+					password = findProperty("gpr.token") as String? ?: System.getenv("TOKEN")
 				}
 			}
+		}
 
-			dependencies {
-				implementation("dev.prozilla:pine:${PINE_VERSION}")
-			}
+		dependencies {
+			implementation("dev.prozilla:pine:${PINE_VERSION}")
+		}
 			`} title="build.gradle.kts" lang="kotlin" />
 		</TabItem>
 	</Tabs>
@@ -146,9 +146,11 @@ This is the same as [option 2](#option-2-install-using-gradle), but with most of
 It is possible to use Pine by downloading the JARs of Pine and its dependencies and adding them to the classpath.
 Sources and Javadoc JARs are also available.
 
+This can also be used to install unreleased versions of Pine, like the [development branch](https://github.com/Prozilla/Pine/tree/dev) or a fork, by building Pine from source.
+
 <Steps>
 
-1. Go to the [Releases page](https://github.com/Prozilla/Pine/releases) and download the JAR of the version you want to use.
+1. Go to the [Releases page](https://github.com/Prozilla/Pine/releases) and download the JAR of the version you want to use, or build Pine from source.
 2. Download the JARs of each dependency:
 
 	- [LWJGL](https://www.lwjgl.org/download)
@@ -165,14 +167,36 @@ Sources and Javadoc JARs are also available.
 
 	<br/>
 
-3. Create a `lib` folder and move the JARs inside this folder
+3. Create a `libs` folder and move the JARs inside this folder
 4. Add all JARs to your classpath
 
 </Steps>
 
+### Hybrid usage
+
+When using a build system, it is possible to only download the Pine JAR manually and to import the other dependencies using said build system.
+
+<Tabs>
+	<TabItem label="Gradle">
+		<Code code={`
+	dependencies {
+		implementation files("libs/pine-engine-${PINE_VERSION}.jar")
+
+		// LWJGL
+		// Use https://www.lwjgl.org/customize to install the required LWJGL packages
+
+		// Other Pine dependencies
+		implementation "com.fasterxml.jackson.core:jackson-databind:2.18.1"
+		implementation "org.gradle:gradle-tooling-api:8.8"
+		runtimeOnly "org.slf4j:slf4j-simple:2.0.16"
+	}
+		`} title="build.gradle" lang="groovy" />
+	</TabItem>
+</Tabs>
+
 ## Minimal example
 
-The following code can be used to verify whether the installation of Pine was succesful or not. If no exception is thrown and a blank window opens, that means everything is working.
+The following code can be used to quickly verify whether the installation of Pine was succesful or not. If no exception is thrown and a blank window opens, that means everything needed to run a Pine application is installed correctly.
 
 ```java
 public class Main {

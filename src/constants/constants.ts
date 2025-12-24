@@ -1,1 +1,1 @@
-export const PINE_VERSION = "2.0.3";
+export const PINE_VERSION = "3.0.1";

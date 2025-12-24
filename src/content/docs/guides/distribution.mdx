@@ -9,17 +9,33 @@ import { Steps } from "@astrojs/starlight/components";
 import { Code } from "@astrojs/starlight/components";
 
 export const buildGradle = `
-tasks.register("createExe") {
-    doLast {
-        def buildTask = tasks.getByPath(":pine:runBuildTool")
-        buildTask.args = [projectDir.absolutePath] // Pass the project directory as an argument
-        buildTask.exec()
-    }
+tasks.register("export", JavaExec) {
+    mainClass = "dev.prozilla.pine.tools.BuildTool"
+    classpath = configurations.runtimeClasspath
+    args = ["."]
 }`;
 
 The Pine engine includes a build tool to distribute your games as executables, using [Launch4j](https://launch4j.sourceforge.net/). The build tool also bundles the resources and a JRE.
 
-Before running the build tool, make sure you create a [configuration file](../../reference/configuration) for your application.
+## Configuration
+
+The build tool can be configured with a `pine-config.json` file in your root directory. Information about all options can be found on the [Javadoc page](https://javadoc.pine.prozilla.dev/dev/prozilla/pine/tools/BuildTool.BuildConfig.html).
+
+<Code code={`
+	{
+		"mainClass": "com.example.Main",
+		"gameName": "Example App",
+		"jar": "build/libs/example-app-1.0.0.0-all.jar"
+	}
+`} lang="json" />
+
+:::tip
+
+To speed up the build process during testing, you can exclude the JRE from your build by setting `includeJre` to `false`.
+
+:::
+
+## Usage
 
 <Steps>
 
@@ -27,15 +43,15 @@ Before running the build tool, make sure you create a [configuration file](../..
 
 	<Code code={"gradle build"} lang="sh" frame="terminal" />
 
-2. Start the build tool with `gradle :pine:runBuildTool ROOT_DIR`. Replace `ROOT_DIR` with the root directory of your project, which should include your `pine-config.json` file.
+2. Start the build tool by executing the `dev.prozilla.pine.tools.BuildTool` class and passing the root directory of your project, which should include your `pine-config.json` file, as an argument.
 3. Test your application by executing the `.exe` file in the subdirectory `/pine` inside your build directory.
-4. To distribute your application, copy the entire parent directory of your `.exe` file, including the `/JRE` and `/resources` folder and the `version.txt` file.
+4. To distribute your application, copy all contents of the directory with the `.exe` file inside it, or simply copy the zip file that is automatically created by default.
 
 </Steps>
 
 ## Gradle task
 
-Alternatively, you can set up a gradle task to run the build tool with fewer steps:
+A gradle task can be set up like this in order to run the build tool with fewer steps:
 
 <Steps>
 
@@ -43,12 +59,20 @@ Alternatively, you can set up a gradle task to run the build tool with fewer ste
 
 	<Code code={buildGradle} title="build.gradle" lang="groovy" />
 
-2. If you would like to automatically run the build tool every time your build your project, add the following line to `build.gradle`:
+2. If you would like to automatically run the build tool every time you build your project, add the following line to your `build.gradle` file:
 
-	<Code code={"tasks.named(\"build\") { finalizedBy(\"createExe\") }"} lang="groovy" />
+	<Code code={"tasks.named(\"build\") { finalizedBy(\"export\") }"} lang="groovy" />
 
-3. To manually create an exe, run the following command:
+3. To manually create an executable, run the following command:
 
-	<Code code={"gradle createExe"} lang="sh" frame="terminal" />
+	<Code code={"gradle export"} lang="sh" frame="terminal" />
 
 </Steps>
+
+## Windows Installer
+
+To make it easier for Windows users to install your application, the build tool can be configured to create a Windows installer using [NSIS](https://nsis.sourceforge.io/Main_Page). This is done by setting `includeInstaller` to `true` in your configuration file.
+
+## Debugging
+
+The build tool stores temporary files in a `/tmp` folder inside your build directory, which can give you more insights about the build process.

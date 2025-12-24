@@ -7,7 +7,7 @@ interface Props {
 	title: string;
 	thumbnail: string;
 }
-const { href, title } = Astro.props;
+let { href, title } = Astro.props;
 
 const thumbnails = import.meta.glob<{ default: ImageMetadata }>(
 	"../assets/examples/**/*{.png,.jpg,.jpeg,.webp,.avif}"
@@ -17,6 +17,14 @@ if (!thumbnail) {
 	throw new Error(`Could not resolve showcase thumbnail: ${Astro.props.thumbnail}`);
 }
 const src = (await thumbnail()).default;
+
+if (!href.startsWith("/")) {
+	let path = Astro.url.pathname;
+	if (!path.endsWith("/")) {
+		path += "/"
+	}
+	href = path + href;
+}
 ---
 
 <MediaCard {href}>
