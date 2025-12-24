@@ -54,10 +54,10 @@ public static void main(String[] args) {
 	
 	applicationBuilder.setTitle(TITLE);
 	applicationBuilder.setWindowSize(WIDTH, HEIGHT);
-	applicationBuilder.setInitialScene(new Scene());
+	applicationBuilder.setInitialScene(new AudioVisualizerScene());
 	applicationBuilder.setTargetFps(FPS);
 	
-	applicationBuilder.buildAndRun();
+	applicationBuilder.build().run();
 }
 ```
 
